@@ -1,6 +1,8 @@
 import { createStyles, makeStyles, Modal, Theme } from '@material-ui/core';
-import React, { useState } from 'react';
+import Axios, { AxiosRequestConfig } from 'axios';
+import React, { useEffect, useState } from 'react';
 import Vessel from '../Models/Vessel';
+import Voyage from '../Models/Voyage';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,6 +20,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const VoyagesModal = (props: { vessel: Vessel, onClose: () => void }) => {
+  const [voyages, setVoyages] = useState<Voyage[]>([])
+
+  useEffect(() => { fetchVoyages(); }, []);
+
+  async function fetchVoyages() {
+    try {
+      let requestConfig: AxiosRequestConfig = {
+        method: 'GET',
+        url: `http://localhost:3006/vessels/${props.vessel.id}/voyages`
+      }
+      let result = await Axios(requestConfig);
+      setVoyages(result.data);
+      console.log('fetched voyages', result.data);
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
   function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -37,7 +57,7 @@ const VoyagesModal = (props: { vessel: Vessel, onClose: () => void }) => {
       onClose={props.onClose}
     >
       <div style={getModalStyle()} className={classes.paper}>
-        <h2 id="simple-modal-title">{ props.vessel.id}'s voyages</h2>
+        <h2 id="simple-modal-title">{props.vessel.name}'s voyages</h2>
         <p id="simple-modal-description">
           Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
       </p>
