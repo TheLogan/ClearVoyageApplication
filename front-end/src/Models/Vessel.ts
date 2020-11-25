@@ -3,4 +3,5 @@ export default class Vessel {
   name!: string;
   description!: string;
   image!: string;
+  voyageAmount!: number;
 }

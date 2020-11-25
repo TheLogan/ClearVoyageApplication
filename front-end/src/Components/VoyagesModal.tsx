@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Modal, Theme } from '@material-ui/core';
+import { Card, createStyles, Grid, makeStyles, Modal, Theme, Typography } from '@material-ui/core';
 import Axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react';
 import Vessel from '../Models/Vessel';
@@ -57,10 +57,18 @@ const VoyagesModal = (props: { vessel: Vessel, onClose: () => void }) => {
       onClose={props.onClose}
     >
       <div style={getModalStyle()} className={classes.paper}>
-        <h2 id="simple-modal-title">{props.vessel.name}'s voyages</h2>
-        <p id="simple-modal-description">
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+        <Grid container direction='column'>
+          <Typography variant='h4'>Voyages</Typography>
+          {voyages.map(voyage => <Card key={voyage.id + voyage.name} style={{margin: 5}}>
+            <Typography variant='h5'>
+              {voyage.name}
+            </Typography>
+            <Typography>{props.vessel.name}</Typography>
+            <img src={voyage.image} alt='voyage' style={{ width: 400 }} />
+            <p>{voyage.description}</p>
+          </Card>)}
+        </Grid>
+
       </div>
     </Modal>
   </>

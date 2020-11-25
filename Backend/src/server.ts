@@ -9,7 +9,9 @@ app.use(cors());
 
 app.get('/vessels', (req, res) => {
   try {
-    res.send(database.vessels);
+    let vessels = database.vessels.map(vessel => {return {...vessel, voyageAmount: database.voyages.filter(voyage => voyage.vesselId === vessel.id).length}})
+
+    res.send(vessels);
   } catch (error) {
     console.log('GET: -> /vessels', error);
     res.sendStatus(500);

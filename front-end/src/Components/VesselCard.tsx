@@ -1,20 +1,29 @@
 import React from 'react';
 import Vessel from '../Models/Vessel';
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, CardMedia, Tooltip, Typography } from '@material-ui/core';
 
-const VesselCard = (props: { vessel: Vessel, onClick: (vesselId:number) => void }) => {
+const VesselCard = (props: { vessel: Vessel, onClick: (vesselId: number) => void }) => {
   return <Card>
     <CardContent>
       <CardMedia>
         <img src={props.vessel.image} alt='Vessel' style={{ width: 250 }} />
       </CardMedia>
-      <Typography variant="h5" component="h2">
+      <Typography variant='h5' component='h2'>
         {props.vessel.name}
       </Typography>
-      <p>{props.vessel.description}</p>
+      <Typography variant='body1'>
+        {props.vessel.description}
+      </Typography>
+      <Typography variant='body2'>
+        Voyage total: {props.vessel.voyageAmount}
+      </Typography>
     </CardContent>
     <CardActions>
-      <Button variant="contained" onClick={() => props.onClick(props.vessel.id)}>Voyages</Button>
+      <Tooltip title={props.vessel.voyageAmount ? '' : 'No voyages'} placement='top' >
+        <div>
+          <Button variant='contained' onClick={() => props.onClick(props.vessel.id)} disabled={props.vessel.voyageAmount === 0}>Voyages</Button>
+        </div>
+      </Tooltip>
     </CardActions>
   </Card>
 }

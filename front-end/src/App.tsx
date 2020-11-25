@@ -29,8 +29,10 @@ function App() {
     <h1>Loading</h1>
   </div>
 
-  let vessels = <Grid container>
-    {vesselsArr.map(vessel => <VesselCard key={vessel.id + vessel.name} vessel={vessel} onClick={(vesselId: number) => { setSelectedVesselId(vesselId) }} />)}
+  let vessels = <Grid container justify="center" alignItems="center">
+    {vesselsArr.map(vessel =>
+      <VesselCard key={vessel.id + vessel.name} vessel={vessel} onClick={(vesselId: number) => { setSelectedVesselId(vesselId) }} />
+    )}
   </Grid>
 
   function renderBody() {
@@ -48,6 +50,7 @@ function App() {
   }
   return (
     <div className="App">
+      <h1 style={{textAlign: 'center'}}>Voyages of the Vessels</h1>
       {renderBody()}
       {vesselModal}
     </div>
